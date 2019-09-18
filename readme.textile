@@ -1,0 +1,55 @@
+h1. Maze
+
+Maze generator and A* path finder.
+
+It's horrible, and needs refactoring, but it works.
+
+h2. Server/client
+
+There is a ruby/sinatra server, which does all of the hard work, and exposes an api.
+
+There is a JS/p5.js front end to it, which only does UI.
+
+h2. API
+
+- GET /api/v0.1/maze := Get the MML definition of the maze
+- POST /api/v0.1/maze := Generate a new maze (returns MML)
+- GET /api/v0.1/path := Get the PML definition of the path, if any
+- GET /api/v0.1/path/valid := Returns the work "true" or "false" if a path has been found
+- POST /api/v0.1/path := Generate a new path (returns nothing)
+
+h2. Maze Markup Language / Path Markup Language
+
+h3. MML
+
+MML describes the maze in the following format:
+
+bc. 40 30
+10 11
+22 13
+1 3 4 5
+30 23 2 2
+[...]
+
+* Line 1 is the width and height of the maze
+* Line 2 is the starting x and y coordinates
+* Line 3 is the target x and y coordinates
+* Line 4 and beyond are untraversable "blocks":
+** The first two numbers are the anchor x and y coordinates of the block
+** The second two numbers are the width and height of the block
+* All other nodes are considered traversable
+* There is no diagonal path between two untraversable nodes touching at a corner
+
+h3. PML
+
+PML describes the path in the following format:
+
+bc. 11 12
+12 13
+13 13
+14 13
+15 13
+[...]
+
+* Each line contains the x and y coordinates of the next step in the path
+* The start and target do not appear in the path
